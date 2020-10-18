@@ -1,0 +1,32 @@
+#!/usr/bin/fish
+
+cd /usr/bin
+
+for i in /usr/bin/*
+    set elfi (readelf -p .mydata $i 2> /dev/null | sed -n 's/^.*__/__/p')
+    if test $elfi = __mydata:install:walksanator 2>/dev/null
+        set -a bina $i
+        echo added
+    else
+        echo $i\ is\ not\ made\ by\ compile.sh
+    end
+end
+
+set cnt 1
+
+for a in $bina;
+    set -a param $cnt $a off
+    set cnt (math $cnt + 1)
+end
+
+set temp (mktemp)
+dialog --checklist "select what you want to uninstall" 0 0 5 $param 2> $temp
+set remove (cat $temp)
+rm $temp
+set remove (string split \  $remove)
+echo $remove
+for a in $remove
+    rm "$bina[$a]"
+    echo "$bina[$a]"
+end
+exit

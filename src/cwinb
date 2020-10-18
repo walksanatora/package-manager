@@ -1,0 +1,9 @@
+#!/bin/bash
+whoami
+if test "[ whoami -eq root ]";
+then
+efibootmgr -n 0002;
+reboot -f;
+else
+echo "requires root(efibootmgr and reboot)"
+fi

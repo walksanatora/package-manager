@@ -1,0 +1,6 @@
+#!/usr/bin/fish
+cd bin
+rm *
+cd ../c
+rm *
+echo /bin and /c have been cleared
