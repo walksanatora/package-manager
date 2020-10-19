@@ -1,7 +1,7 @@
-for installing
+for installing .sh files
 put sh files in /src
-run ./compile(really important for uninstalling(for now))
-run ./bin-install
+run ./compile
+run ./bin-install <--- really all you need to run
 
 to remove packages
 run ./bin-uninstall 
