@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-pwd
 cd src 
-#compile and add a custom header to the file
 for i in $(pwd)/*; do
     shc -f $i
 done

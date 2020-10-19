@@ -1,0 +1,138 @@
+#!/bin/bash
+case $1 in
+clear)
+cd bin
+rm *
+cd ../c
+rm *
+echo "/bin and /c have been cleared"
+echo "wanna clear installed packages"
+echo "press enter or if you dont jsut exit the program"
+read
+for f in $(cat $HOME/.local/var/package-manager/pak);do
+    rm $HOME/.local/bin/$f
+done
+;;
+compile)
+pwd
+cd src 
+#compile and add a custom header to the file
+for i in $(pwd)/*; do
+    shc -f $i
+done
+
+#move to folders
+mv *.x ../bin
+mv *.x.c ../c
+
+#clear file extensions
+cd ../bin
+for i in $(pwd)/*; do
+    for o in $(pwd)/*;
+    do
+        name=${o%.*}
+        mv $o $name 2>/dev/null
+    done    
+done
+
+for i in $(pwd)/*;do
+    echo $i
+done
+
+;;
+install)
+cd bin
+for i in *;do
+    mv $i $HOME/.local/bin/
+    echo $i >> $HOME/.local/var/package-manager/pak
+    echo $i
+done
+;;
+setup)
+if echo "$PATH" | grep "$HOME"/.local/bin; then
+    echo "install location is in path"
+else
+    echo "adding to .bashrc the path or install"
+    echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> ~/.bashrc
+    echo "~/.local/bin has been added to path"
+fi
+
+#check for fish shell
+if echo "$SHELL" | grep fish;then
+    fish -c "set -ag PATH $HOME/.local/bin"
+fi
+
+if test -e $HOME/.local/bin;then
+    echo "~/.local/bin exist skipping"
+else
+        echo "creating ~/.local/bin"
+    mkdir $HOME/.local/bin
+    echo "done"
+fi
+
+if test -e $HOME/.local/var;then
+    echo "~/.local/var exist skipping"
+else
+        echo "creating ~/.local/varr"
+    mkdir $HOME/.local/var
+    echo "done"
+fi
+
+if test -e $HOME/.local/var/package-manager;then
+    echo "~/.local/var/package-manager exist skipping"
+else
+        echo "creating ~/.local/var/package-manger"
+    mkdir $HOME/.local/var/package-manager
+    echo "done"
+fi
+;;
+uninstall)
+
+cd $HOME/.local/bin || exit
+
+pkg="$HOME/.local/var/package-manager/pak"
+
+cvar=$(sort $pkg | uniq )
+for i in ${cvar[*]};do
+echo $i
+done
+read
+for i in $(cat $pkg);do
+    add=$HOME/.local/bin/
+    add+=$i
+    bina+=($add)
+done
+
+#convert found files into options for dialog
+cnt=1
+for a in $(cat $pkg); do
+    param+=("$cnt" "$a" "off")
+    cnt=$((cnt + 1))
+done
+
+#dialog
+temp=$(mktemp)
+if dialog --checklist "select what you want to uninstall" 0 0 5 ${param[*]} 2> "$temp"; then
+remove=$(cat "$temp") #turn the output from dialog back to a var
+
+rm "$temp" #remove the tmp file
+
+read -ra remove <<< "$remove"
+cnt=0
+for a in "${remove[@]}";do
+    rm "${bina["$((a - 1))"]}"
+    echo "${bina["$((a - 1))"]}"
+    a=$((a - cnt))
+    sed -i "$a"d $pkg
+    echo $a
+    cnt=$((cnt + 1))
+done
+exit
+fi
+#clear
+rm "$temp"
+echo "dialog was canceled"
+;;
+*)
+echo subcommand not found
+esac

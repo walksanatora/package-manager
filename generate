@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "#!/bin/bash" > walpak
+echo "case \$1 in" >> walpak
+cd walsrc
+for f in *;do
+    echo $f
+    cat $f
+    read
+    echo "$f)" >> ../walpak
+    sed 1d $f >> ../walpak
+    echo ";;" >> ../walpak
+done
+cd ..
+echo "*)" >>walpak
+echo "echo subcommand not found" >> walpak
+echo "esac" >> walpak
