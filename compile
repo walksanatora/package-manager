@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 pwd
 cd src 
-var=$(ls | cat)
 #compile and add a custom header to the file
-for i in $var;
-do
+for i in $(pwd)/*; do
     shc -f $i
     rm $i.x
     cat $i.x.c | gcc -x c - -c -o hello.o
@@ -27,14 +25,15 @@ mv *.x.c ../c
 
 #clear file extensions
 cd ../bin
-var=$(ls | cat)
-for i in $(seq $( ls -1 | wc -l));
-do
-    var=$(ls | cat)
-    for o in $var;
+for i in $(pwd)/*; do
+    for o in $(pwd)/*;
     do
         name=${o%.*}
         mv $o $name 2>/dev/null
     done    
+done
+
+for i in $(pwd)/*;do
+    echo $i
 done
 

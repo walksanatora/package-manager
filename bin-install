@@ -1,11 +1,2 @@
-#!/usr/bin/env bash
-pwd
-if test "[ $(whoami) -eq root]"
-	then
-	echo "installing to /usr/bin"
-	mv $(pwd)/bin/* /usr/bin/
-else
-	echo "need admin to copy to /usr/bin"
-	echo "gonna prompt for sudo eit the script to cancel install"
-	sudo ./bin-install
-fi
+#!/bin/bash
+mv $(pwd)/bin/* /usr/bin/

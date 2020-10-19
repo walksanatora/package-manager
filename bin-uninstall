@@ -1,32 +1,45 @@
-#!/usr/bin/fish
+#!/bin/bash
 
-cd /usr/bin
+cd /usr/bin || exit
 
-for i in /usr/bin/*
-    set elfi (readelf -p .mydata $i 2> /dev/null | sed -n 's/^.*__/__/p')
-    if test $elfi = __mydata:install:walksanator 2>/dev/null
-        set -a bina $i
+for i in /usr/bin/*;do
+    elfi=$(readelf -p .mydata "$i" 2>/dev/null | sed -n 's/^.*__/__/p')
+    if [[ $elfi == __mydata:install:walksanator ]];then
+        bina+=("$i")
         echo added
-    else
-        echo $i\ is\ not\ made\ by\ compile.sh
-    end
-end
+    fi
+done
 
-set cnt 1
+#convert found files into options for dialog
+cnt=1
+for a in ${bina[*]}; do
+    param+=("$cnt" "$a" "off")
+    cnt=$((cnt + 1))
+done
+echo ${param[*]}
+read -r
+#dialog
+temp=$(mktemp)
+if dialog --checklist "select what you want to uninstall" 0 0 5 ${param[*]} 2> "$temp"; then
+remove=$(cat "$temp") #turn the output from dialog back to a var
 
-for a in $bina;
-    set -a param $cnt $a off
-    set cnt (math $cnt + 1)
-end
-
-set temp (mktemp)
-dialog --checklist "select what you want to uninstall" 0 0 5 $param 2> $temp
-set remove (cat $temp)
-rm $temp
-set remove (string split \  $remove)
-echo $remove
-for a in $remove
-    rm "$bina[$a]"
-    echo "$bina[$a]"
-end
+rm "$temp" #remove the tmp file
+echo "$remove"
+read -ra remove <<< "$remove"
+for a in ${remove[*]};do
+    echo "$a"
+done
+echo bina
+for a in ${bina[*]};do
+    echo "$a"
+done
+read -r
+for a in ${remove[*]};do
+    rm "${bina["$a"]}"
+    echo "${bina["$a"]}"
+done
 exit
+fi
+clear
+rm "$temp"
+echo "dialog was canceled"
