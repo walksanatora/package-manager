@@ -1,14 +1,14 @@
 for installing .sh files
 
-* put sh files in /src
-* run ./compile
-* run ./bin-install
+* put sh files in /src (add it if it doesent exist)
+* run ./walpak compile
+* run ./walpak install
     * this is all you really have to run
-
+    * requires files in /bin
 
 to remove packages
 
-* run ./bin-uninstall 
+* run ./walpak uninstall 
 
 __next in line__
 * versioning for the "packages"
