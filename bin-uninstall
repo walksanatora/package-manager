@@ -16,8 +16,7 @@ for a in ${bina[*]}; do
     param+=("$cnt" "$a" "off")
     cnt=$((cnt + 1))
 done
-echo ${param[*]}
-read -r
+
 #dialog
 temp=$(mktemp)
 if dialog --checklist "select what you want to uninstall" 0 0 5 ${param[*]} 2> "$temp"; then
@@ -26,6 +25,7 @@ remove=$(cat "$temp") #turn the output from dialog back to a var
 rm "$temp" #remove the tmp file
 echo "$remove"
 read -ra remove <<< "$remove"
+echo remove
 for a in ${remove[*]};do
     echo "$a"
 done
@@ -33,10 +33,11 @@ echo bina
 for a in ${bina[*]};do
     echo "$a"
 done
-read -r
-for a in ${remove[*]};do
-    rm "${bina["$a"]}"
-    echo "${bina["$a"]}"
+
+echo removing
+for a in ${remove[@]};do
+    rm "${bina["$((a - 1))"]}"
+    echo "${bina["$((a - 1))"]}"
 done
 exit
 fi
