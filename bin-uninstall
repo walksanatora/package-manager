@@ -10,7 +10,7 @@ done
 
 #convert found files into options for dialog
 cnt=1
-for a in ${bina[*]}; do
+for a in "${bina[@]}"; do
     param+=("$cnt" "$a" "off")
     cnt=$((cnt + 1))
 done
@@ -21,22 +21,16 @@ if dialog --checklist "select what you want to uninstall" 0 0 5 ${param[*]} 2> "
 remove=$(cat "$temp") #turn the output from dialog back to a var
 
 rm "$temp" #remove the tmp file
-echo "$remove"
-read -ra remove <<< "$remove"
-echo remove
-for a in ${remove[*]};do
-    echo "$a"
-done
-echo bina
-for a in ${bina[*]};do
-    echo "$a"
-done
 
-echo removing
-for a in ${remove[@]};do
+read -ra remove <<< "$remove"
+cnt=0
+for a in "${remove[@]}";do
     rm "${bina["$((a - 1))"]}"
     echo "${bina["$((a - 1))"]}"
+    a=$((a - cnt))
     sed -i "$a"d /var/lib/package-manager/pak
+    echo $a
+    cnt=$((cnt + 1))
 done
 exit
 fi
