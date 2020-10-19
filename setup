@@ -7,6 +7,11 @@ else
     echo "~/.local/bin has been added to path"
 fi
 
+#check for fish shell
+if echo "$SHELL" | grep fish;then
+    fish -c "set -ag PATH $HOME/.local/bin"
+fi
+
 if test -e $HOME/.local/bin;then
     echo "~/.local/bin exist skipping"
 else
