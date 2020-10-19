@@ -4,15 +4,6 @@ cd src
 #compile and add a custom header to the file
 for i in $(pwd)/*; do
     shc -f $i
-    rm $i.x
-    cat $i.x.c | gcc -x c - -c -o hello.o
-    echo "__mydata:install:walksanator" > mydata
-    objcopy --add-section .mydata=mydata \
-          --set-section-flags .mydata=noload,readonly hello.o hello2.o
-    gcc hello2.o -o hello.o
-    elfi=$(readelf -p .mydata hello.o)
-    elfi=$(echo $elfi | sed 's/^.*__/__/')
-    mv hello.o $i.x
 done
 
 #remove the tmp files

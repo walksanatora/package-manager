@@ -1,6 +1,12 @@
-#!/usr/bin/fish
+#!/bin/bash
 cd bin
 rm *
 cd ../c
 rm *
-echo /bin and /c have been cleared
+echo "/bin and /c have been cleared"
+echo "wanna clear installed packages"
+echo "press enter or if you dont jsut exit the program"
+read
+for f in $(cat /var/lib/package-manager/pak);do
+    rm /usr/bin/$f
+done

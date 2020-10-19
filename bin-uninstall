@@ -2,12 +2,10 @@
 
 cd /usr/bin || exit
 
-for i in /usr/bin/*;do
-    elfi=$(readelf -p .mydata "$i" 2>/dev/null | sed -n 's/^.*__/__/p')
-    if [[ $elfi == __mydata:install:walksanator ]];then
-        bina+=("$i")
-        echo added
-    fi
+for i in $(cat /var/lib/package-manager/pak);do
+    add=/usr/bin/
+    add+=$i
+    bina+=($add)
 done
 
 #convert found files into options for dialog
@@ -38,6 +36,7 @@ echo removing
 for a in ${remove[@]};do
     rm "${bina["$((a - 1))"]}"
     echo "${bina["$((a - 1))"]}"
+    sed -i "$a"d /var/lib/package-manager/pak
 done
 exit
 fi
