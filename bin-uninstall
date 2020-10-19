@@ -10,7 +10,7 @@ done
 
 #convert found files into options for dialog
 cnt=1
-for a in "${bina[@]}"; do
+for a in $(cat $HOME/.local/var/package-manager/pak); do
     param+=("$cnt" "$a" "off")
     cnt=$((cnt + 1))
 done
