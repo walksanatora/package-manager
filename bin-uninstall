@@ -2,7 +2,14 @@
 
 cd $HOME/.local/bin || exit
 
-for i in $(cat $HOME/.local/var/package-manager/pak);do
+pkg="$HOME/.local/var/package-manager/pak"
+
+cvar=$(sort $pkg | uniq )
+for i in ${cvar[*]};do
+echo $i
+done
+read
+for i in $(cat $pkg);do
     add=$HOME/.local/bin/
     add+=$i
     bina+=($add)
@@ -10,7 +17,7 @@ done
 
 #convert found files into options for dialog
 cnt=1
-for a in $(cat $HOME/.local/var/package-manager/pak); do
+for a in $(cat $pkg); do
     param+=("$cnt" "$a" "off")
     cnt=$((cnt + 1))
 done
@@ -28,12 +35,12 @@ for a in "${remove[@]}";do
     rm "${bina["$((a - 1))"]}"
     echo "${bina["$((a - 1))"]}"
     a=$((a - cnt))
-    sed -i "$a"d $HOME/.local/var/package-manager/pak
+    sed -i "$a"d $pkg
     echo $a
     cnt=$((cnt + 1))
 done
 exit
 fi
-clear
+#clear
 rm "$temp"
 echo "dialog was canceled"
