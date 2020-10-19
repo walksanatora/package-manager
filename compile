@@ -6,10 +6,6 @@ for i in $(pwd)/*; do
     shc -f $i
 done
 
-#remove the tmp files
-rm *.o
-rm mydata
-
 #move to folders
 mv *.x ../bin
 mv *.x.c ../c
