@@ -1,0 +1,8 @@
+#!/bin/bash
+if echo "$PATH" | grep "$HOME"/.local/bin; then
+    echo "install location is in path"
+else
+    echo "adding to .bashrc the path or install"
+    echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> ~/.bashrc
+    echo "~/.local/bin has been added to path"
+fi
