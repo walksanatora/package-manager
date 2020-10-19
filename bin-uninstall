@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd /usr/bin || exit
+cd $HOME/.local/bin || exit
 
-for i in $(cat /var/lib/package-manager/pak);do
-    add=/usr/bin/
+for i in $(cat $HOME/.local/var/package-manager/pak);do
+    add=$HOME/.local/bin/
     add+=$i
     bina+=($add)
 done
@@ -28,7 +28,7 @@ for a in "${remove[@]}";do
     rm "${bina["$((a - 1))"]}"
     echo "${bina["$((a - 1))"]}"
     a=$((a - cnt))
-    sed -i "$a"d /var/lib/package-manager/pak
+    sed -i "$a"d $HOME/.local/var/package-manager/pak
     echo $a
     cnt=$((cnt + 1))
 done
