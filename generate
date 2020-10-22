@@ -1,16 +1,48 @@
 #!/bin/bash
-echo "#!/bin/bash" > walpak
-echo "case \$1 in" >> walpak
-cd walsrc
+
+scompile () {
+echo "#!/bin/bash" > ../$1
+echo "shift $2" >> ../$1
+echo "case \$1 in" >> ../$1
+echo "shift $2"
+}
+compile () {
 for f in *;do
+    echo "$f)" >> ../$1
+    sed 1d $f >> ../$1
+    echo ";;" >> ../$1
     echo $f
-    cat $f
-    read
-    echo "$f)" >> ../walpak
-    sed 1d $f >> ../walpak
-    echo ";;" >> ../walpak
+    echo $1
 done
+}
+ecompile () {
+echo "*)" >>../$1
+echo "echo subcommand not found" >> ../$1
+echo "esac" >> ../$1
+}
+
+recursion () {
+echo re $1
+a=$1
+n=$((a + 1))
+echo $n
+if ls -d */;then
+    for f in */;do
+        cd $f
+        pwd
+        echo $n
+        recursion $n
+    done
+fi
+scompile $(basename $(pwd)).tmp $n
+compile $(basename $(pwd)).tmp
+ecompile $(basename $(pwd)).tmp
+echo +1
 cd ..
-echo "*)" >>walpak
-echo "echo subcommand not found" >> walpak
-echo "esac" >> walpak
+}
+cd walsrc
+recursion -1
+mv walsrc.tmp walpak
+pwd
+
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+shift 1
+case $1 in
+echo)
+echo "hello world"
+;;
+*)
+echo subcommand not found
+esac

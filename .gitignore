@@ -2,3 +2,4 @@ c/
 bin/
 src/*
 generate.sh
+tmp.sh

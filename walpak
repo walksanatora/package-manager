@@ -1,4 +1,5 @@
 #!/bin/bash
+shift 1
 case $1 in
 clear)
 cd bin
@@ -14,9 +15,7 @@ for f in $(cat $HOME/.local/var/package-manager/pak);do
 done
 ;;
 compile)
-pwd
 cd src 
-#compile and add a custom header to the file
 for i in $(pwd)/*; do
     shc -f $i
 done
@@ -85,6 +84,18 @@ else
     mkdir $HOME/.local/var/package-manager
     echo "done"
 fi
+;;
+test)
+;;
+test.tmp)
+shift 1
+case $1 in
+echo)
+echo "hello world"
+;;
+*)
+echo subcommand not foundaaa
+esac
 ;;
 uninstall)
 
