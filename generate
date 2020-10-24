@@ -4,15 +4,17 @@ scompile () {
 echo "#!/bin/bash" > ../$1
 echo "shift $2" >> ../$1
 echo "case \$1 in" >> ../$1
-echo "shift $2"
 }
 compile () {
 for f in *;do
-    echo "$f)" >> ../$1
-    sed 1d $f >> ../$1
-    echo ";;" >> ../$1
-    echo $f
-    echo $1
+    echo $f compile to $1
+    if [[ -d $f ]];then
+        echo $f is directory
+    else
+        echo "$f)" >> ../$1
+        sed 1d $f >> ../$1
+        echo ";;" >> ../$1
+    fi
 done
 }
 ecompile () {
@@ -24,25 +26,26 @@ echo "esac" >> ../$1
 recursion () {
 echo re $1
 a=$1
-n=$((a + 1))
-echo $n
 if ls -d */;then
+    n=$((a + 1))
     for f in */;do
         cd $f
         pwd
-        echo $n
+        echo layer $n
         recursion $n
     done
 fi
-scompile $(basename $(pwd)).tmp $n
-compile $(basename $(pwd)).tmp
-ecompile $(basename $(pwd)).tmp
+name=$(basename $(pwd)).tmp
+scompile $name $n
+compile $name
+ecompile $name
 echo +1
 cd ..
 }
 cd walsrc
-recursion -1
+recursion 0
 mv walsrc.tmp walpak
+chmod +x walpak
 pwd
 
 

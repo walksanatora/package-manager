@@ -85,8 +85,6 @@ else
     echo "done"
 fi
 ;;
-test)
-;;
 test.tmp)
 shift 1
 case $1 in
@@ -94,7 +92,7 @@ echo)
 echo "hello world"
 ;;
 *)
-echo subcommand not foundaaa
+echo subcommand not found
 esac
 ;;
 uninstall)
