@@ -1,11 +1,4 @@
 #!/bin/bash
-shift 1
-echo layer:$1
-case $1 in
-echo)
-echo "hello world"
-;;
-umm)
 shift 0
 echo layer:$1
 case $1 in
@@ -15,8 +8,4 @@ echo did working yay
 ;;
 *)
 echo subcommand not found layer:0 command:$1
-esac
-;;
-*)
-echo subcommand not found layer:1 command:$1
 esac

@@ -1,5 +1,6 @@
 #!/bin/bash
 shift 1
+echo layer:$1
 case $1 in
 clear)
 cd bin
@@ -85,14 +86,27 @@ else
     echo "done"
 fi
 ;;
-test.tmp)
+test)
 shift 1
+echo layer:$1
 case $1 in
 echo)
 echo "hello world"
 ;;
+umm)
+shift 0
+echo layer:$1
+case $1 in
+idk)
+echo did it work
+echo did working yay
+;;
 *)
-echo subcommand not found
+echo subcommand not found layer:0 command:$1
+esac
+;;
+*)
+echo subcommand not found layer:1 command:$1
 esac
 ;;
 uninstall)
@@ -143,5 +157,5 @@ rm "$temp"
 echo "dialog was canceled"
 ;;
 *)
-echo subcommand not found
+echo subcommand not found layer:1 command:$1
 esac
