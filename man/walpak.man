@@ -1,0 +1,17 @@
+.\" Manpage for walpak package manager
+.\" contact $email for help/to fix the man page(s)
+.TH man 1 "06 May 2010" "1.0" "walpak man page"
+.SH NAME
+walpak \- a package manager written in bash
+.SH SYNOPSIS
+walpak [subcommand] [subsubcommand] ...
+.SH DESCRIPTION
+walpak is a package manager written in bash viewable at Https://github.com/walksanatora/package-manager
+.SH OPTIONS
+depending on the sub command you may have to provide extra options
+.SH SEE ALSO
+walpak-local(1), walpak-remote(1)
+.SH BUGS
+nothing currently (make a bug report on github if you find one thogh)4
+.SH AUTHOR
+Walker Fowles ($email)
