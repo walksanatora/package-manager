@@ -1,5 +1,11 @@
-for installing .sh files
 
+__thanks__
+
+realising that (( $2 > 0 )) actually works
+\[NSA\]llya244#1422
+
+__instructions__
+for installing .sh files
 * put sh files in /src (add it if it doesent exist)
 * run ./walpak compile
 * run ./walpak install
