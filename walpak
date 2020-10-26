@@ -78,7 +78,7 @@ fi
 if test -e $HOME/.local/var;then
     echo "~/.local/var exist skipping"
 else
-        echo "creating ~/.local/varr"
+    echo "creating ~/.local/var"
     mkdir $HOME/.local/var
     echo "done"
 fi
@@ -86,8 +86,16 @@ fi
 if test -e $HOME/.local/var/package-manager;then
     echo "~/.local/var/package-manager exist skipping"
 else
-        echo "creating ~/.local/var/package-manger"
+    echo "creating ~/.local/var/package-manger"
     mkdir $HOME/.local/var/package-manager
+    echo "done"
+fi
+
+if test -e "$HOME/.local/man";then
+    echo "~/.local/man exist skipping"
+else
+    echo "creating ~/.local/man"
+    mkdir "$HOME/.local/man"
     echo "done"
 fi
 ;;
