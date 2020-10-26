@@ -162,7 +162,7 @@ fi
 
 echo "installing man pages"
 cd "man"
-mv "$(pwd)/../man" "~/.local/"
+mv "(pwd)" "~/.local/"
 ;;
 *)
 echo subcommand not found layer:0 command:$1

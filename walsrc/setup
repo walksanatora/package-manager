@@ -46,4 +46,4 @@ fi
 
 echo "installing man pages"
 cd "man"
-mv "$(pwd)" "~/.local/"
+mv "(pwd)" "~/.local/"
