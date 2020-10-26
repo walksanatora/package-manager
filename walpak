@@ -118,7 +118,6 @@ cvar=$(sort $pkg | uniq )
 for i in ${cvar[*]};do
 echo $i
 done
-read
 for i in $(cat $pkg);do
     add=$HOME/.local/bin/
     add+=$i
