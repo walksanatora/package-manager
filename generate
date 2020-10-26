@@ -2,8 +2,8 @@
 
 scompile () {
 echo "#!/bin/bash" > ../$1
-if [[ $2 > 0 ]]
-then
+echo "layer $2 neat"
+if (( $2 > 0 ));then
     echo "shift 1" >> ../$1  
     echo shifted  
 fi
@@ -50,9 +50,9 @@ if ls -d */;then
 fi
 name=$(basename $(pwd)).tmp
 echo \"$1\" layer
-scompile $name $n
+scompile $name $1
 compile $name
-ecompile $name $n
+ecompile $name $1
 echo +1
 cd ..
 }
