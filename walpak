@@ -1,6 +1,12 @@
 #!/bin/bash
 echo layer:$1
 case $1 in
+help)
+;;
+local)
+shift 1
+echo layer:$1
+case $1 in
 clear)
 cd bin
 rm *
@@ -85,29 +91,6 @@ else
     echo "done"
 fi
 ;;
-test)
-shift 1
-echo layer:$1
-case $1 in
-echo)
-echo "hello world"
-;;
-umm)
-shift 1
-echo layer:$1
-case $1 in
-idk)
-echo did it work
-echo did working yay
-;;
-*)
-echo subcommand not found layer:2 command:$1
-esac
-;;
-*)
-echo subcommand not found layer:1 command:$1
-esac
-;;
 uninstall)
 
 cd $HOME/.local/bin || exit
@@ -153,6 +136,20 @@ fi
 #clear
 rm "$temp"
 echo "dialog was canceled"
+;;
+*)
+echo subcommand not found layer:1 command:$1
+esac
+;;
+remote)
+shift 1
+echo layer:$1
+case $1 in
+*)
+;;
+*)
+echo subcommand not found layer:1 command:$1
+esac
 ;;
 *)
 echo subcommand not found layer:0 command:$1
