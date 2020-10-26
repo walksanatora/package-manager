@@ -43,3 +43,7 @@ else
     mkdir "$HOME/.local/man"
     echo "done"
 fi
+
+echo "installing man pages"
+cd "man"
+mv "$(pwd)" "~/.local/"

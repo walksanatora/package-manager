@@ -8,14 +8,14 @@ __instructions__
 
 for installing .sh files
 * put sh files in /src (add it if it doesent exist)
-* run ./walpak compile
-* run ./walpak install
+* run ./walpak local compile
+* run ./walpak local install
     * this is all you really have to run
     * requires files in /bin
 
 to remove packages
 
-* run ./walpak uninstall 
+* run ./walpak local uninstall 
 
 __next in line__
 * versioning for the "packages"
