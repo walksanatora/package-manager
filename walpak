@@ -93,20 +93,26 @@ case $1 in
 echo)
 echo "hello world"
 ;;
+test)
+shift 1
+;;
 umm)
-shift 0
+shift 1
 echo layer:$1
 case $1 in
 idk)
 echo did it work
 echo did working yay
 ;;
+umm)
+shift 1
+;;
 *)
-echo subcommand not found layer:0 command:$1
+echo subcommand not found layer:2 command:$1
 esac
 ;;
 *)
-echo subcommand not found layer:1 command:$1
+echo subcommand not found layer:2 command:$1
 esac
 ;;
 uninstall)
@@ -156,6 +162,9 @@ fi
 rm "$temp"
 echo "dialog was canceled"
 ;;
+walsrc)
+shift 1
+;;
 *)
-echo subcommand not found layer:1 command:$1
+echo subcommand not found layer:2 command:$1
 esac
