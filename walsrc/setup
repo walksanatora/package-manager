@@ -36,15 +36,8 @@ else
     echo "done"
 fi
 
-if test -e "$HOME/.local/man";then
-    echo "~/.local/man exist skipping"
-else
-    echo "creating ~/.local/man"
-    mkdir "$HOME/.local/man"
-    echo "done"
-fi
 
 echo "installing man pages"
 pwd
-ls
+ls -lsah
 mv -f "$(pwd)/man/" "~/.local/man/"
