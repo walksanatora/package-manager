@@ -161,8 +161,9 @@ else
 fi
 
 echo "installing man pages"
-cd "man"
-mv "(pwd)" "~/.local/"
+pwd
+ls
+mv  "$(pwd)/man/" "~/.local/man/"
 ;;
 *)
 echo subcommand not found layer:0 command:$1
