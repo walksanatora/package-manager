@@ -157,7 +157,8 @@ echo "installing man pages"
 whoami
 pwd
 ls
-mv -f "$(pwd)/man/" "/home/$USER/.local/man/"
+mv -f "$(pwd)/man/" "~/.local/"
+mandb
 ;;
 *)
 echo subcommand not found layer:0 command:$1
