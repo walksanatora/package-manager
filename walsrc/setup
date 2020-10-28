@@ -47,4 +47,4 @@ fi
 echo "installing man pages"
 pwd
 ls
-mv  "$(pwd)/man/" "~/.local/man/"
+mv -f "$(pwd)/man/" "~/.local/man/"
