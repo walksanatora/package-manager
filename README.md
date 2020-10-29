@@ -4,6 +4,9 @@ __thanks__
 realising that (( $2 > 0 )) actually works
 \[NSA\]llya244#1422
 
+__random information__
+the tmp file is an executable that contains the current script I am working on
+
 __instructions__
 
 for installing .sh files
