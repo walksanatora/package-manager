@@ -3,3 +3,4 @@ bin/
 src/*
 generate.sh
 *tmp*
+pkg
