@@ -15,3 +15,5 @@ tar -xzf pkg
 cd "${pkg[0]}" || echo "why did the dir not get made" || exit 1
 ./install.sh
 echo "${pkg[0]}"
+
+
