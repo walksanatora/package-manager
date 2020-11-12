@@ -12,4 +12,7 @@ dakg=($dapkg)
 IFS=' '
 read -a pkg <<< $dapkg
 wget $url/packages/${pkg[0]}.tgz -O pkg
+tar -xzf pkg
+cd ${pkg[0]}
+./install.sh
 echo ${pkg[0]}

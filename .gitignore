@@ -1,6 +1,7 @@
-c/
-bin/
+c/*
+bin/*
 src/*
+*example*
 generate.sh
 *tmp*
 pkg
