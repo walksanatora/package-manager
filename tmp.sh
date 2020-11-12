@@ -3,17 +3,13 @@ url=http://localhost
 curl $url/packages/packages.list > tmp
 while read -r s;do 
 f="${s%% *}"
-if [[ $f = "$1" ]];then
+if [[ $f = $1 ]];then
     dapkg=$s
     break
 fi
 done < tmp
+dakg=($dapkg)
 IFS=' '
-read -ar pkg <<< "$dapkg"
-wget "$url/packages/${pkg[0]}.tgz" -O pkg
-tar -xzf pkg
-cd "${pkg[0]}" || echo "why did the dir not get made" || exit 1
-./install.sh
-echo "${pkg[0]}"
-
-
+read -a pkg <<< $dapkg
+wget $url/packages/${pkg[0]}.tgz -O pkg
+echo ${pkg[0]}
