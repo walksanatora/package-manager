@@ -5,3 +5,4 @@ src/*
 generate.sh
 *tmp*
 pkg
+*generate*
