@@ -13,6 +13,12 @@ IFS=' '
 read -a pkg <<< $dapkg
 wget $url/packages/${pkg[0]}.tgz -O pkg
 echo ${pkg[0]}
+mv pkg ~/.local/var/package-manager
+cd ~/.local/var/package-manager
 tar -xzf pkg
+rm pkg
 setup=$(sed -n 1p ${pkg[0]}/config)
-./${pkg[0]}/$setup
+cd ${pkg[0]}
+./$setup
+
+

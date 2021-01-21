@@ -104,16 +104,6 @@ echo "dialog was canceled"
 echo subcommand not found layer:1 command:$1
 esac
 ;;
-remote)
-shift 1
-echo layer:$1
-case $1 in
-*)
-;;
-*)
-echo subcommand not found layer:1 command:$1
-esac
-;;
 setup)
 if echo "$PATH" | grep "$HOME"/.local/bin; then
     echo "install location is in path"
