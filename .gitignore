@@ -1,8 +1,2 @@
-c/*
-bin/*
-src/*
-*example*
-generate.sh
-*tmp*
-pkg
-*generate*
+*.tmp
+walpak

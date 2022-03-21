@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+echo "Preparing to setup"
+mkdir -p "$HOME/.local/var/walpak/packages"
+touch "$HOME/.local/var/walpak/sources"
+touch "$HOME/.local/var/walpak/config"
+echo "setup completed"

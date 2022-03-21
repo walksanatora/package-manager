@@ -1,27 +1,16 @@
+# WalPak
+A (very bad) package manager written purely in bash scripts
 
-__thanks__
-
-realising that (( $2 > 0 )) actually works
-\[NSA\]llya244#1422
-
-__random information__
-the tmp file is an executable that contains the current script I am working on
-
-__instructions__
-
-for installing .sh files
-* put sh files in /src (add it if it doesent exist)
-* run ./walpak local compile
-* run ./walpak local install
-    * this is all you really have to run
-    * requires files in /bin
-
-to remove packages
-
-* run ./walpak local uninstall 
-
-__next in line__
-* versioning for the "packages"
-* acess to remote packages for install
-* updates? for packages
-* anything anyone wants in the issues labled with suggestion
+## setup
+download the source
+```bash
+git clone https://github.com/walksanatora/package-manager
+```
+then get the bundler script
+```bash
+git submodule init --recursive
+```
+Finnially bundle into a single script
+```
+./generate
+```

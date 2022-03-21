@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if sch -h >/deb/null 2>&1 ;then
+
+else
+	echo "'shc' is installed."
+	echo "'shc' can be installed if you have https://github.com/walksanatora/pm-repo-main"
+	echo "just run 'walpak install shc'"
+fi
