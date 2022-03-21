@@ -1,3 +1,6 @@
 [submodule "bundler"]
 	path = bundler
 	url = https://github.com/walksanatora/bash_bundle
+[submodule "repo-main"]
+	path = repo-main
+	url = https://github.com/walksanatora/pm-repo-main
