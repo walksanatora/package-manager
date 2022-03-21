@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if [[ -e "$HOME/.local/var/walpak/sources" ]]; then
-
+	true
 else
 	echo "cannot find sources file"
 	echo "please run 'walpak setup'"

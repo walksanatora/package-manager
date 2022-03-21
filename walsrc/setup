@@ -1,6 +1,36 @@
 #!/usr/bin/env bash
-echo "Preparing to setup"
-mkdir -p "$HOME/.local/var/walpak/packages"
-touch "$HOME/.local/var/walpak/sources"
-touch "$HOME/.local/var/walpak/config"
-echo "setup completed"
+source util/_optparse
+
+if [[ -n "$h" || -n "$help" ]];then
+	echo "walpak setup"
+	echo
+	echo "commands are either keyvalue or truthy"
+	echo "keyvalue arguments are defined like"
+	echo -e "\t --key=value or --key value"
+	echo "truthy arguments are defined like"
+	echo -e "\t -value"
+	echo "truthy are just set to one so"
+	echo -e "\t--key='1' --key '1' and -key"
+	echo "are all the same"
+	exit 0
+fi
+
+if [[ -n "$uninstall" ]]; then
+	echo "Preparing to uninstall"
+	if [[ -z "$remove" ]]; then
+		remove="$(read -P 'remove installed packages (y/n)? ')"
+	fi
+	if [[ "$remove" = "y" || "$remove" = "1" ]]; then
+		echo "removing packages"
+		#package removing stuff here
+		echo "packages removed"
+	fi
+	rm -rf "$Home/.local/var/walpak"
+	echo "done"
+else
+	echo "Preparing to setup"
+	mkdir -p "$HOME/.local/var/walpak/packages"
+	touch "$HOME/.local/var/walpak/sources"
+	touch "$HOME/.local/var/walpak/config"
+	echo "setup completed"
+fi
