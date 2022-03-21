@@ -1,7 +1,0 @@
-#!/bin/bash
-cd bin
-for i in *;do
-    mv $i $HOME/.local/bin/
-    echo $i >> $HOME/.local/var/package-manager/pak
-    echo $i
-done
