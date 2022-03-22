@@ -1,7 +1,112 @@
 #!/usr/bin/env bash
-if [[ -e "$HOME/.local/var/walpak/sources" ]]; then
-	true
-else
-	echo "cannot find sources file"
-	echo "please run 'walpak setup'"
+pkg_str=$1
+source util/_optparse
+if [[ -z "$walpakdir" ]];then
+	echo "setting walpak home"
+	export walpakdir="$HOME/.local/var/walpak/"
 fi
+if [[ -e "$walpakdir/packages.cache" ]]; then
+	echo "finding packages"
+	packages=$(grep -E "^$pkg_str " "$walpakdir/packages.cache")
+	if [[ -n "$packages" ]]; then
+		IFS=$'\n' read -rd '' -a packages <<< "$packages"
+		echo "pkg count: ${#packages[@]}"
+		echo "found packages:"
+		c=0
+		for pkg in "${packages[@]}"; do
+			echo "$c) $pkg"
+			c=$((c+1))
+		done
+		pkg=""
+		if [[ "${#packages[@]}" = "1" ]]; then
+			echo "installing: ${packages[0]}"
+			pkg="$packages"
+		else
+			pkg_no=""
+			tmp='1'
+			while [[ -z "${packages[$pkg_no]}" || "$tmp" = '1' ]];do
+				echo -n "please select a version (0-$((${#packages[@]} - 1))):"
+				read -a pkg_no
+				echo ${packages[$pkg_no]}
+				tmp=0
+			done
+			echo "'${packages[$pkg_no]}'"
+			pkg="${packages[$pkg_no]}"
+		fi
+		if [[ $(echo "$pkg" | awk '{print $4}' | grep -E "[s]") && ! "$UID" -eq 0 ]] ; then
+			echo "package reuqires super user. prompting"
+			[ "$UID" -eq 0 ] || exec sudo "$0" $_at "--walpakdir=$walpakdir"
+		else
+			if grep "$(echo "$pkg" | awk '{print $1}')" "$walpakdir/packages.installed" >/dev/null;then
+				echo "package allready installed"
+				exit
+			else
+				echo "Installing package"
+			fi
+			if echo "$pkg" | awk '{print $4}' | grep -E "[f]"; then
+				odir="$PWD"
+				mkdir -p "$walpakdir/../opt"
+				cd "$walpakdir/../opt"
+				while read -r line;do
+					l=$(echo $line | grep -oE "^[^#]*")
+					command=$(echo "$l" | awk '{print $1}')
+					case $command in
+						./*)
+							echo "executing from cwd: ${command:2}"
+							./${command:2}
+						;;
+						git-clone)
+							url=$(echo "$l"| awk '{print $2}')
+							if [[ -e "$(echo $url | awk -F/ '{print $NF}')" ]];then
+								cd "$(echo $url | awk -F/ '{print $NF}')"
+								git pull
+								cd ..
+							else
+								echo "git cloning: $url"
+								echo "d $PWD/$(echo $url | awk -F/ '{print $NF}')" >> "$walpakdir/packages/$(echo $pkg | awk '{print $1}')"
+								git clone "$url"
+							fi
+						;;
+						make)
+							jobs=$(cat /proc/cpuinfo | grep siblings | head -n1 | awk '{print $3}')
+							echo "running make -j$jobs"
+							make -j$jobs
+						;;
+						cd)
+							dir=$(echo "$l" | awk '{print $2}')
+							echo "cding to directory: $dir"
+							cd "$dir"
+						;;
+						install)
+							file=$(echo "$l" | awk '{print $2}')
+							echo "installing file"
+							cp "$file" "$HOME/.local/bin/$(echo $file | awk -F/ '{print $NF}')"
+							echo "f $HOME/.local/bin/$(echo $file | awk -F/ '{print $NF}')" >> "$walpakdir/packages/$(echo $pkg | awk '{print $1}')"
+						;;
+					esac
+				done < <(curl $(echo "$pkg" | awk '{print $2}') -s)
+				cd $odir
+				echo "$pkg" | awk '{print $1}' >> "$walpakdir/packages.installed"
+			else
+				if curl $(echo "$pkg" | awk '{print $2}') -s | bash ;then
+					echo "$pkg" | awk '{print $1}' >> "$walpakdir/packages.installed"
+					echo "package installed successfilly"
+					echo "script ran:"
+					curl $(echo "$pkg" | awk '{print $2}') -s
+					echo "ran from:"
+					echo "$(echo "$pkg" | awk '{print $2}')"
+				else
+					echo "bash claims to have exited improperly"
+				fi
+			fi
+		fi
+	else
+		echo "cannot find any packages via regex '^$1 '"
+		echo "could you mean"
+		grep "$1" "$HOME/.local/var/walpak/packages.cache"
+	fi
+else
+	echo "cannot find packages cache file"
+	echo "please run '$0 update'"
+fi
+

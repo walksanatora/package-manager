@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+echo "Current list of packages in cache"
+if [[ -e "$HOME/.local/var/walpak/packages.cache" ]]; then
+	while read -r package; do
+		name=$(echo "$package" | awk '{print $1}')
+		version=$(echo "$package" | awk '{print $3}')
+		src=$(echo "$package" | awk '{print $2}')
+		echo -e "$name/$version\t$src"
+	done < "$HOME/.local/var/walpak/packages.cache"
+else
+	echo "cannot find 'packages.cache'"
+	echo "please run '$0 update'"
+fi

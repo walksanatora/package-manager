@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+if [[ -e "$HOME/.local/var/walpak/sources" ]]; then
+	rm "$HOME/.local/var/walpak/packages.cache"
+	while read -r src; do
+		while read -r package; do
+			if [[ "$package" =~ ^\s*\# ]]; then
+				echo "line is a comment, skipping"
+			else
+				package="$(echo "$package" | grep -oE "^[^#]*")"
+				arg_count="$(echo "$package" | awk '{print NF}')"
+				echo "read info"
+				echo -e "pkg:\t\t$package"
+				echo -e "from:\t\t$src"
+				if [[ ! "$arg_count" = "4" ]]; then
+					echo "Incorrectly formatted. it must have 4 values (have: $arg_count)"
+					echo "Notify repo maintainer of possible space"
+					continue
+				fi
+				name=$(echo "$package" | awk '{print $1}')
+				script="$src$(echo "$package" | awk '{print $2}')"
+				version="$(echo "$package" | awk '{print $3}')"
+				flags="$(echo "$package" | awk '{print $4}')"
+				echo -e "Package info:\nname:\t\t$name\nscript:\t\t$script\nversion:\t$version\nflags:\t\t$flags"
+				echo -e "Cache line: \n$name $script $version $flags"
+				echo
+				new_arg="$name $script $version $flags"
+				arg_count="$(echo "$new_arg" | awk '{print NF}')"
+				if [[ ! "$arg_count" = "4" ]]; then
+					echo "Incorrectly formated. it must have 4 values (have: $arg_count)"
+					echo "repo name most likely contains a space"
+					continue
+				fi
+				echo "$new_arg" >> "$HOME/.local/var/walpak/packages.cache"
+			fi
+		done < <(curl "$src"/scripts.list)
+	done < "$HOME/.local/var/walpak/sources"
+else
+	echo "cannot find sources file"
+	echo "please run '$0 setup'"
+fi
